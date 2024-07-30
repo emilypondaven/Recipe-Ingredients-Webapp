@@ -1,0 +1,343 @@
+/* Global styles */
+* {
+  font-family: Gamja Flower;
+  font-size: clamp(10px, 2.5vw, 25px);
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: var(--text-color);
+}
+
+:root {
+  --white: white;
+  --light-pink: #f5e3e0;
+  --pink: #fff3f0;
+  --dark-pink: #ecd2ce;
+  --darker-pink: #e6c4bf;
+  --text-color: #533641;
+  --food-group-dropdown-color: #DBB9B3; 
+  --ingredient-item-color: #f6d2cb;
+  background-color: var(--light-pink);
+}
+
+main {
+  margin: 1em 0.5em;
+}
+
+.foodNotes {
+  margin: 0.5em auto;
+  margin-bottom: 4em;
+  border: none;
+  outline: none;
+  padding: 0.3em 1.5em;
+  border-radius: 0.9em;
+  width: 100%;
+  height: 10em;
+  max-width: 100%;
+  max-height: 10em;
+}
+
+.shoppingTrends {
+  margin: 0.5em 2em;
+  padding: 0.3em 1.5em;
+}
+
+.shoppingTrends button {
+  display: block;
+  margin: auto;
+  width: 50%;
+  border-radius: 0.5em;
+  padding: 0.3em 1.5em;
+  margin-bottom: 1em;
+  border: none;
+  outline: none;
+  background-color: var(--dark-pink);
+  cursor: pointer;
+}
+
+.shoppingTrends button:hover {
+  background-color: var(--pink);
+}
+
+/* Header styles */
+header {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5em;
+  margin: 1em 0.5em;
+}
+
+header input,
+header button {
+  border-radius: 0.9em;
+  padding: 0.3em 1.5em;
+  border: none;
+  outline: none;
+  background: var(--white);
+}
+
+header input {
+  width: 100%
+}
+
+header button {
+  transition: opacity 200ms;
+  cursor: pointer;
+}
+
+header button:hover {
+  opacity: 0.7;
+}
+
+/* Ingredient item styles */
+.ingredientItem {
+  margin: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4em 0.7em;
+  border-radius: 0.5em;
+  background: var(--ingredient-item-color);
+}
+
+.ingredientItem input[type="checkbox"] {
+  width: 1em;
+  height: 1em;
+  border-radius: 1em;
+  border: 0.1em solid var(--text-color);
+  margin-right: 0.5em;
+  appearance: none;
+}
+
+.ingredientItem input[type="checkbox"]:checked {
+  background-color: var(--text-color);
+}
+
+/* Action container styles */
+.actionContainer {
+  display: flex;
+  align-items: center;
+}
+
+.actionContainer button {
+  transition: background-color 200ms;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  margin: 0.5em;
+}
+
+/* Home buttons styles */
+.homeButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.homeButtons li {
+  margin: 3em;
+  padding: 1.5em 3em;
+  display: flex;
+  justify-content: center;
+  background-color: var(--dark-pink);
+  border-radius: 1em;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.homeButtons li:hover {
+  background-color: var(--darker-pink);
+}
+
+.homeButtons a {
+  text-decoration: none;
+}
+
+/* Top navigation styles */
+.topnav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--pink);
+  width: 100%;
+  position: relative;
+  top: 0;
+}
+
+.topnav a {
+  display: inline-block;
+  padding: 0.8em 6.3vw;
+  text-decoration: none;
+}
+
+.topnav a:hover,
+.topnav a.active {
+  background-color: var(--light-pink);
+}
+
+/* Drop down menu for food groups */
+.dropbtn {
+  margin-right: 0em;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  border-radius: 0.9em;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Drop down menu for foods */
+/* Basic styling for the select element */
+select {
+  padding: 0.7em;
+  border: 0.1em solid white;
+  border-radius: 0.9em;
+  cursor: pointer;
+}
+
+/* Styling for the select element when it is focused */
+select:focus {
+  outline: none;
+  border: 0.1em solid var(--food-group-dropdown-color);
+}
+
+option {
+  background-color: var(--food-group-dropdown-color);
+  color: white;
+}
+
+.foodItemButtons {
+  border-radius: 0.5em;
+  margin: 0.3em 0.3em;
+  padding: 0.3em 1.5em;
+  border: none;
+  outline: none;
+  background-color: var(--ingredient-item-color);
+}
+
+.foodItemButtons:hover {
+  background-color: var(--pink);
+  cursor: pointer;
+}
+
+.recipeSearchButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  border-radius: 0.5em;
+  margin: 1em auto;
+  padding: 0.3em 1.5em;
+  border: none;
+  outline: none;
+  background-color: var(--white);
+}
+
+.recipeSearchButtons:hover {
+  background-color: var(--pink);
+}
+
+.recipe-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 90%;
+  margin: 0 auto; /* Center the grid container */
+}
+
+/* Recipe card container */
+.recipe-card {
+  border-radius: 1em;
+  padding: 0.5em 0.5em;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  max-width: 16em;
+  margin: 20px auto;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Hover effect for card */
+.recipe-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Recipe image */
+.recipe-image {
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Recipe details container */
+.recipe-details {
+  padding: 15px;
+}
+
+/* Recipe title */
+.recipe-title {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.usedIngredients li {
+  list-style: none;
+  display: inline-block;
+  margin: 0.3em 0.3em;
+  border-radius: 1em;
+  padding: 0.3em 0.5em;
+  background-color: var(--ingredient-item-color)
+}
+
+/* Ingredient list */
+.ingredient-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.ingredient-list li {
+  background: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 5px 0;
+  padding: 8px;
+  font-size: 0.9rem;
+}
+
+/* Like button */
+.like-button {
+  display: block;
+  background-color: #ff6f61;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin: 10px auto 0;
+  width: 80%;
+}
+
+.like-button:hover {
+  background-color: #e65c50;
+  transform: scale(1.05);
+}
+
+.like-button:focus {
+  outline: none;
+}
