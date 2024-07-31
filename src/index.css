@@ -1,7 +1,7 @@
 /* Global styles */
 * {
   font-family: Gamja Flower;
-  font-size: clamp(18px, 2.5vw, 25px);
+  font-size: clamp(12px, 2.5vw, 25px);
   line-height: 1.5;
   margin: 0;
   padding: 0;
