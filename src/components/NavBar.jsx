@@ -10,6 +10,7 @@ export default function NavBar(props) {
                 <li><NavLink to="/recipe-dashboard">Recipes Dashboard</NavLink></li>
                 <li><NavLink to="/shopping-list">Shopping List</NavLink></li>
                 <li><NavLink to="/what-to-cook">What to Cook?</NavLink></li>
+                <li><NavLink to="/snack-recommendations">Snack Inspo</NavLink></li>
             </ul>
         </nav>
   )

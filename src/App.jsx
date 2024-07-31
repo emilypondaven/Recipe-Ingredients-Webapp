@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import RecipeDashboard from "./pages/RecipeDashboard";
 import ShoppingList from "./pages/ShoppingList";
 import WhatToCook from "./pages/WhatToCook";
+import SnackRecommendation from "./pages/SnackRecommendation"
 
 function App() {
   const [likedRecipes, setLikedRecipes] = useState(
@@ -56,6 +57,12 @@ function App() {
               likedRecipes={likedRecipes}
               setLikedRecipes={setLikedRecipes}
             />
+          }
+        />
+        <Route
+          path="/snack-recommendations"
+          element={
+            <SnackRecommendation />
           }
         />
       </Routes>
