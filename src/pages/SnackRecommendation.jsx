@@ -30,7 +30,6 @@ export default function SnackRecommendation() {
         { item: "Dark chocolate", healthy: true },
         { item: "Grapes", healthy: true },
         { item: "Mango", healthy: true },
-        { item: "Apple", healthy: true },
         { item: "Banana", healthy: true },
         { item: "Chia pudding", healthy: true },
         { item: "Air-popped popcorn", healthy: true },  
