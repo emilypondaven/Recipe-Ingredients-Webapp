@@ -57,7 +57,7 @@ export default function SnackRecommendation() {
             <button onClick={handleClick}>{refresh ? "Refresh" : "Give me some snacks"}</button>
             <div className="snackList">
                 {snackList.map((snack, index) => (
-                    <span key={index}>{snack.item}</span>
+                    <span key={index} style={{backgroundColor: snack.healthy ? "#CFE8B5" : "#E8B7B5"}}>{snack.item}</span>
                 ))}
             </div>
         </div>

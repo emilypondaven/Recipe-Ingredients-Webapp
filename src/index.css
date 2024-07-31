@@ -367,5 +367,4 @@ option {
   margin: 1em 6em;
   padding: 2em 1em;
   font-size: clamp(19px, 2.5vw, 25px);
-  background-color: var(--ingredient-item-color);
 }
