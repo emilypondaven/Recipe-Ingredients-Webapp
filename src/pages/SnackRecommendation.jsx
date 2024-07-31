@@ -64,9 +64,12 @@ export default function SnackRecommendation() {
     <div>
       <NavBar format="topnav" />
       <div className="snackGenerator">
-        <button onClick={handleClick}>
-          {refresh ? "Refresh" : "Give me some snacks"}
-        </button>
+        <div style={{display: "flex", justifyContent: "space-between" }}>
+            <button onClick={handleClick}>
+            {refresh ? "Refresh" : "Give me some snacks"}
+            </button>
+            <button style={{backgroundColor: !healthy ? "#EDCCCB" : "#D0DFB3", width: "6em" }} onClick={() => setHealthy((prev) => !prev)}>{healthy ? "Healthy snacks" : "Unhealthy snacks"}</button>
+        </div>
         <div className="snackList">
           {snackList.map((snack, index) => (
             <span key={index}>{snack.item}</span>
