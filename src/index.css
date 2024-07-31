@@ -341,3 +341,31 @@ option {
 .like-button:focus {
   outline: none;
 }
+
+.snackGenerator button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  border-radius: 0.5em;
+  margin: 1em auto;
+  padding: 0.3em 1.5em;
+  border: none;
+  outline: none;
+  background-color: var(--white);
+}
+
+.snackGenerator button:hover {
+  background-color: var(--pink);
+}
+
+.snackGenerator span {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-radius: 0.5em;
+  margin: 1em 6em;
+  padding: 2em 1em;
+  font-size: clamp(19px, 2.5vw, 25px);
+  background-color: var(--ingredient-item-color);
+}
