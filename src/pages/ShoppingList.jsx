@@ -11,10 +11,12 @@ import {
   updateDoc,
   setDoc,
   getDoc,
+  deleteField,
+  increment
 } from "firebase/firestore";
 import { db } from "../config/Firestore";
 
-function ShoppingList({ boughtIngredients, setBoughtIngredients }) {
+function ShoppingList() {
   // List of all the ingredient names, their food group, and their checked values
   const [ingredients, setIngredients] = useState([]);
 
@@ -141,8 +143,27 @@ function ShoppingList({ boughtIngredients, setBoughtIngredients }) {
       : removeFromBoughtIngredients(weekId, ingredientInformation.group);
   }
 
-  function addToBoughtIngredients(week, itemToUpdate) {
-    // Check if the week exists in the data
+  async function addToBoughtIngredients(week, itemToUpdate) {
+    const ingredientRef = doc(
+      db,
+      "users",
+      "4A9NGq8eZsQoI4Wf5ner",
+      "boughtIngredients",
+      week
+    );
+
+    try {
+      // Attempt to increment the field
+      await updateDoc(ingredientRef, {
+        [itemToUpdate]: increment(1)
+      });
+    } catch (error) {
+      // If it doesn't exist, create it and set it to 0, then increment it
+      await setDoc(ingredientRef, {
+        [itemToUpdate]: 1
+      }, { merge: true });
+    }
+    /* // Check if the week exists in the data
     setBoughtIngredients((prevIngredients) => {
       let newIngredients = [...prevIngredients];
       let weekIndex = newIngredients.findIndex((value) => value[0] === week);
@@ -158,11 +179,30 @@ function ShoppingList({ boughtIngredients, setBoughtIngredients }) {
         newIngredients[weekIndex]
       );
       return newIngredients;
-    });
-  }
+    }); */
+  };
 
-  function removeFromBoughtIngredients(week, itemToRemove) {
-    setBoughtIngredients((prevIngredients) => {
+  async function removeFromBoughtIngredients(week, itemToRemove) {
+    const ingredientRef = doc(
+      db,
+      "users",
+      "4A9NGq8eZsQoI4Wf5ner",
+      "boughtIngredients",
+      week
+    );
+    const ingredientData = (await getDoc(ingredientRef)).data()
+
+    if (ingredientData[itemToRemove] === 1) {
+      await updateDoc(ingredientRef, {
+        [itemToRemove]: deleteField()
+      });
+    } else {
+      await updateDoc(ingredientRef, {
+        [itemToRemove]: increment(-1)
+      });
+    }
+    
+    /* setBoughtIngredients((prevIngredients) => {
       const newIngredients = [...prevIngredients];
       const weekIndex = newIngredients.findIndex((value) => value[0] === week);
       const itemIndex = getIndexFromFoodGroup(itemToRemove);
@@ -174,7 +214,7 @@ function ShoppingList({ boughtIngredients, setBoughtIngredients }) {
       );
 
       return newIngredients;
-    });
+    }); */
   }
 
   function getIndexFromFoodGroup(i) {

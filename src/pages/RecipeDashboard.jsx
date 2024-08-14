@@ -6,13 +6,32 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../config/Firestore";
 
 export default function RecipeDashboard({
-  boughtIngredients,
   likedRecipes,
   setLikedRecipes,
 }) {
 
   const [foodNotes, setFoodNotes] = useState(""); // Original food notes from Firestore
   const [tempFoodNotes, setTempFoodNotes] = useState(""); // Temporary notes for user edits
+  const [boughtIngredients, setBoughtIngredients] = useState([]);
+
+  const getBoughtIngredients = async () => {
+    const boughtIngredientsRef = collection(
+      db,
+      "users",
+      "4A9NGq8eZsQoI4Wf5ner",
+      "boughtIngredients"
+    );
+    const snapshot = await getDocs(boughtIngredientsRef);
+
+    // Map over the documents and extract their data
+    const items = snapshot.docs.map((doc) => ({
+      id: doc.id, // Get document ID if needed
+      ...doc.data(), // Spread the document data
+    }));
+
+    // Update the state with the fetched items
+    setBoughtIngredients(items);
+  };
 
   const getFoodNotes = async () => {
     const docRef = doc(db, "users", "4A9NGq8eZsQoI4Wf5ner");
@@ -38,6 +57,8 @@ export default function RecipeDashboard({
 
   useEffect(() => {
     getFoodNotes();
+    getBoughtIngredients();
+    console.log(boughtIngredients)
   }, []);
 
   useEffect(() => {
@@ -64,21 +85,6 @@ export default function RecipeDashboard({
     },
   };
 
-  function getData() {
-    return [
-      [
-        "Week",
-        "Meat",
-        "Carbohydrates",
-        "Fruit & Veg",
-        "Dairy",
-        "Drinks",
-        "Sweets & Chips",
-        "Average",
-      ],
-      ...boughtIngredients,
-    ];
-  }
 
   return (
     <div>
@@ -94,28 +100,6 @@ export default function RecipeDashboard({
           col="30"
         />
       </div>
-      {boughtIngredients.length !== 0 ? (
-        <div className="shoppingTrends">
-          <button onClick={(e) => setShowShoppingTrends((prev) => !prev)}>
-            {!showShoppingTrends
-              ? "Show Food Shopping Trends"
-              : "Hide Food Shopping Trends"}
-          </button>
-          {showShoppingTrends ? (
-            <Chart
-              chartType="ComboChart"
-              width="100%"
-              height="300px"
-              data={getData()}
-              options={options}
-            />
-          ) : (
-            ""
-          )}
-        </div>
-      ) : (
-        ""
-      )}
       {likedRecipes && (
         <RecipeList
           recipes={likedRecipes}
