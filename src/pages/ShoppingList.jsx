@@ -3,6 +3,16 @@ import { useState, useEffect } from "react";
 import IngredientsInput from "../components/IngredientsInput";
 import IngredientsList from "../components/IngredientsList";
 import NavBar from "../components/NavBar";
+import {
+  doc,
+  deleteDoc,
+  collection,
+  getDocs,
+  updateDoc,
+  setDoc,
+  getDoc,
+} from "firebase/firestore";
+import { db } from "../config/Firestore";
 
 function ShoppingList({ boughtIngredients, setBoughtIngredients }) {
   // List of all the ingredient names, their food group, and their checked values
@@ -19,6 +29,29 @@ function ShoppingList({ boughtIngredients, setBoughtIngredients }) {
     localStorage.setItem("ingredients", JSON.stringify(ingredients));
   }, [ingredients]);
 
+  const getIngredients = async () => {
+    const shoppingListRef = collection(
+      db,
+      "users",
+      "4A9NGq8eZsQoI4Wf5ner",
+      "shoppingList"
+    );
+    const snapshot = await getDocs(shoppingListRef);
+
+    // Map over the documents and extract their data
+    const items = snapshot.docs.map((doc) => ({
+      id: doc.id, // Get document ID if needed
+      ...doc.data(), // Spread the document data
+    }));
+
+    // Update the state with the fetched items
+    setIngredients(items);
+  };
+
+  useEffect(() => {
+    getIngredients();
+  }, []);
+
   function getWeekIdentifier(date) {
     const week = Math.ceil((date.getDate() - date.getDay() + 1) / 7);
     return `week ${week}`;
@@ -26,7 +59,7 @@ function ShoppingList({ boughtIngredients, setBoughtIngredients }) {
 
   // Functions handling adding, deleting, editing, and checking ingredients list
 
-  function handleAddIngredients(newIngredient) {
+  async function handleAddIngredients(newIngredient) {
     if (!ingredients.includes(newIngredient.value)) {
       const newIngredientsList = [
         ...ingredients,
@@ -37,14 +70,38 @@ function ShoppingList({ boughtIngredients, setBoughtIngredients }) {
         },
       ];
       setIngredients(newIngredientsList);
+
+      // Add to firestore
+      const shoppingListRef = doc(
+        db,
+        "users",
+        "4A9NGq8eZsQoI4Wf5ner",
+        "shoppingList",
+        newIngredient.value
+      );
+      await setDoc(shoppingListRef, {
+        value: newIngredient.value,
+        group: newIngredient.group,
+        checked: false,
+      });
     }
   }
 
-  function handleDeleteIngredient(handleIngredient) {
+  async function handleDeleteIngredient(handleIngredient) {
     const newIngredientsList = ingredients.filter((ingredient) => {
       return ingredient.value != handleIngredient;
     });
     setIngredients(newIngredientsList);
+
+    // Delete from firestore
+    const ingredientRef = doc(
+      db,
+      "users",
+      "4A9NGq8eZsQoI4Wf5ner",
+      "shoppingList",
+      handleIngredient
+    );
+    await deleteDoc(ingredientRef);
   }
 
   function handleEditIngredient(handleIngredient) {
@@ -56,7 +113,7 @@ function ShoppingList({ boughtIngredients, setBoughtIngredients }) {
     handleDeleteIngredient(handleIngredient);
   }
 
-  function handleCheckedIngredient(handleIngredient) {
+  async function handleCheckedIngredient(handleIngredient) {
     // Update the ingredients list
     const newIngredientsList = ingredients.map((ingredient) =>
       ingredient.value === handleIngredient
@@ -64,6 +121,20 @@ function ShoppingList({ boughtIngredients, setBoughtIngredients }) {
         : ingredient
     );
     setIngredients(newIngredientsList);
+
+    // Update the firestore
+    const ingredientRef = doc(
+      db,
+      "users",
+      "4A9NGq8eZsQoI4Wf5ner",
+      "shoppingList",
+      handleIngredient
+    );
+    const docSnap = await getDoc(ingredientRef);
+    const prevChecked = docSnap.data()["checked"];
+    await updateDoc(ingredientRef, {
+      checked: !prevChecked,
+    });
 
     // Update the bought ingredients list
     const weekId = getWeekIdentifier(new Date());
