@@ -6,9 +6,7 @@ import NavBar from "../components/NavBar";
 
 function ShoppingList({ boughtIngredients, setBoughtIngredients }) {
   // List of all the ingredient names, their food group, and their checked values
-  const [ingredients, setIngredients] = useState(
-    JSON.parse(localStorage.getItem("ingredients")) || []
-  );
+  const [ingredients, setIngredients] = useState([]);
 
   // Ingredient typed into the input bar
   const [ingredientValue, setIngredientValue] = useState({
