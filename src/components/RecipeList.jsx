@@ -11,18 +11,19 @@ export default function RecipeList({ recipes, likedRecipes, setLikedRecipes }) {
       "users",
       "4A9NGq8eZsQoI4Wf5ner",
       "likedRecipes",
-      id
+      id.toString()
     );
     await deleteDoc(recipeRef);
   };
 
   const saveLikedRecipe = async (id, recipe) => {
+    console.log(id)
     const recipeRef = doc(
       db,
       "users",
       "4A9NGq8eZsQoI4Wf5ner",
       "likedRecipes",
-      id
+      id.toString()
     );
     await setDoc(recipeRef, recipe);
   }
