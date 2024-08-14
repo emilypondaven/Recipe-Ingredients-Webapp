@@ -10,13 +10,20 @@ export default function RecipeDashboard({
   likedRecipes,
   setLikedRecipes,
 }) {
-  
+
   const [foodNotes, setFoodNotes] = useState(""); // Original food notes from Firestore
   const [tempFoodNotes, setTempFoodNotes] = useState(""); // Temporary notes for user edits
 
   const getFoodNotes = async () => {
-    const userDoc = await getDoc(doc(db, "users", "4A9NGq8eZsQoI4Wf5ner"));
-    setTempFoodNotes(userDoc.get("foodNotes"));
+    const docRef = doc(db, "users", "4A9NGq8eZsQoI4Wf5ner");
+    const userDoc = await getDoc(docRef)
+    const docData = userDoc.data();
+
+    if (!("foodNotes" in docData)) {
+      await setDoc(docRef, { foodNotes: "" }, { merge: true })
+    } else {
+      setTempFoodNotes(userDoc.get("foodNotes"));
+    }
   };
 
   const saveFoodNotes = async () => {

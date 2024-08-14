@@ -24,11 +24,6 @@ function ShoppingList({ boughtIngredients, setBoughtIngredients }) {
     group: "Meat",
   });
 
-  // Saves ingredients to local storage every time ingredients changes
-  useEffect(() => {
-    localStorage.setItem("ingredients", JSON.stringify(ingredients));
-  }, [ingredients]);
-
   const getIngredients = async () => {
     const shoppingListRef = collection(
       db,

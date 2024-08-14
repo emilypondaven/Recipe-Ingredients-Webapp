@@ -1,18 +1,45 @@
 import React, { useState } from "react";
 import RecipeCard from "./RecipeCard";
+import { doc, setDoc, deleteDoc } from "firebase/firestore";
+import { db } from "../config/Firestore";
 
 export default function RecipeList({ recipes, likedRecipes, setLikedRecipes }) {
 
+  const removeSavedLikedRecipe = async (id) => {
+    const recipeRef = doc(
+      db,
+      "users",
+      "4A9NGq8eZsQoI4Wf5ner",
+      "likedRecipes",
+      id
+    );
+    await deleteDoc(recipeRef);
+  };
+
+  const saveLikedRecipe = async (id, recipe) => {
+    const recipeRef = doc(
+      db,
+      "users",
+      "4A9NGq8eZsQoI4Wf5ner",
+      "likedRecipes",
+      id
+    );
+    await setDoc(recipeRef, recipe);
+  }
+
+
   const handleLikeRecipe = (recipeId) => {
-    setLikedRecipes((prevLiked) => {
+    setLikedRecipes( (prevLiked) => {
       // Check if the recipe is already liked
       const isLiked = prevLiked.some(recipe => recipe.id === recipeId);
       if (isLiked) {
         // Remove the recipe from the liked list
+        removeSavedLikedRecipe(recipeId)
         return prevLiked.filter(recipe => recipe.id !== recipeId);
       } else {
         // Add the recipe to the liked list
         const recipeToLike = recipes.find(recipe => recipe.id === recipeId);
+        saveLikedRecipe(recipeId, recipeToLike)
         return [...prevLiked, recipeToLike];
       }
     });

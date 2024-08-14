@@ -15,6 +15,7 @@
     "react-dom": "^18.3.1",
     "react-google-charts": "^4.0.1",
     "react-router-dom": "^6.25.1",
+    "recipe-ingredients-webapp": "file:",
     "styled-components": "^6.1.12"
   },
   "devDependencies": {

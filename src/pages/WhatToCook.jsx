@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
 import FoodItemInput from "../components/FoodItemInput";
 import RecipeList from "../components/RecipeList";
-import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db } from "../config/Firestore";
 
 export default function WhatToCook({ likedRecipes, setLikedRecipes }) {
@@ -14,13 +14,20 @@ export default function WhatToCook({ likedRecipes, setLikedRecipes }) {
   const [suggestedRecipes, setSuggestedRecipes] = useState([]);
 
   const getExistingFoodItems = async () => {
-    const userDoc = await getDoc(doc(db, "users", "4A9NGq8eZsQoI4Wf5ner"));
-    setFoodItems(userDoc.get("existingFoodItems"));
+    const docRef = doc(db, "users", "4A9NGq8eZsQoI4Wf5ner");
+    const userDoc = await getDoc(docRef)
+    const docData = userDoc.data();
+
+    if (!("existingFoodItems" in docData)) {
+      await setDoc(docRef, { existingFoodItems: [] }, { merge: true })
+    } else {
+      setFoodItems(userDoc.get("existingFoodItems"));
+    }
   };
 
   useEffect(() => {
     getExistingFoodItems()
-  })
+  }, [])
 
   // PROBLEM: Works but maybe should make it so state/database always in sync
   async function handleAddFoodItem(newFoodItem) {
