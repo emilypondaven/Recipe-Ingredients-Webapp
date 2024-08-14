@@ -3,29 +3,50 @@ import { useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
 import FoodItemInput from "../components/FoodItemInput";
 import RecipeList from "../components/RecipeList";
+import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { db } from "../config/Firestore";
 
 export default function WhatToCook({ likedRecipes, setLikedRecipes }) {
   const SPOONACULAR_KEY = import.meta.env.VITE_SPOONACULAR_API_KEY;
 
-  const [foodItems, setFoodItems] = useState(
-    JSON.parse(localStorage.getItem("existingFoodItems")) || []
-  );
+  const [foodItems, setFoodItems] = useState([]);
   const [foodItemValue, setFoodItemValue] = useState("");
   const [suggestedRecipes, setSuggestedRecipes] = useState([]);
 
-  function handleAddFoodItem(newFoodItem) {
+  const getExistingFoodItems = async () => {
+    const userDoc = await getDoc(doc(db, "users", "4A9NGq8eZsQoI4Wf5ner"));
+    setFoodItems(userDoc.get("existingFoodItems"));
+  };
+
+  useEffect(() => {
+    getExistingFoodItems()
+  })
+
+  // PROBLEM: Works but maybe should make it so state/database always in sync
+  async function handleAddFoodItem(newFoodItem) {
     if (!foodItems.includes(newFoodItem)) {
       setFoodItems((oldFoodItems) => {
         return [...oldFoodItems, newFoodItem];
       });
     }
+    const docRef = doc(db, "users", "4A9NGq8eZsQoI4Wf5ner");
+    await updateDoc(docRef, {
+      existingFoodItems: arrayUnion(newFoodItem) // Replace 'existingFood' with your field name
+    });
+
   }
 
-  function handleDeleteFoodItem(newFoodItem) {
+  async function handleDeleteFoodItem(newFoodItem) {
     const newFoodItemList = foodItems.filter((foodItem) => {
       return foodItem != newFoodItem;
     });
     setFoodItems(newFoodItemList);
+
+    const docRef = doc(db, "users", "4A9NGq8eZsQoI4Wf5ner");
+    await updateDoc(docRef, {
+      existingFoodItems: arrayRemove(newFoodItem) // Replace 'existingFood' with your field name
+    });
+
   }
 
   function capitaliseFoodItem(word) {

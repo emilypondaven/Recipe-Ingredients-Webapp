@@ -10,6 +10,7 @@ export default function RecipeDashboard({
   likedRecipes,
   setLikedRecipes,
 }) {
+  
   const [foodNotes, setFoodNotes] = useState(""); // Original food notes from Firestore
   const [tempFoodNotes, setTempFoodNotes] = useState(""); // Temporary notes for user edits
 
