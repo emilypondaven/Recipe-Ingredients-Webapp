@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import NavBar from "../components/NavBar";
 import RecipeList from "../components/RecipeList";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../config/Firestore";
 
 export default function RecipeDashboard({
@@ -13,6 +13,7 @@ export default function RecipeDashboard({
   const [foodNotes, setFoodNotes] = useState(""); // Original food notes from Firestore
   const [tempFoodNotes, setTempFoodNotes] = useState(""); // Temporary notes for user edits
   const [boughtIngredients, setBoughtIngredients] = useState([]);
+  const [showShoppingTrends, setShowShoppingTrends] = useState(false);
 
   const getBoughtIngredients = async () => {
     const boughtIngredientsRef = collection(
@@ -24,10 +25,16 @@ export default function RecipeDashboard({
     const snapshot = await getDocs(boughtIngredientsRef);
 
     // Map over the documents and extract their data
-    const items = snapshot.docs.map((doc) => ({
-      id: doc.id, // Get document ID if needed
-      ...doc.data(), // Spread the document data
-    }));
+    const items = snapshot.docs.map((doc) => {
+      const data = Object.values(doc.data());
+      
+      // Calculate the average
+      const sum = data.reduce((acc, value) => acc + value, 0);
+      const average = sum / data.length;
+      
+      // Return the array with doc.id, all data points, and the average appended at the end
+      return [doc.id, ...data, average];
+    });
 
     // Update the state with the fetched items
     setBoughtIngredients(items);
@@ -58,7 +65,6 @@ export default function RecipeDashboard({
   useEffect(() => {
     getFoodNotes();
     getBoughtIngredients();
-    console.log(boughtIngredients)
   }, []);
 
   useEffect(() => {
@@ -70,8 +76,6 @@ export default function RecipeDashboard({
     }, 3000); // saves every 5 seconds
     return () => clearTimeout(timeoutId);
   }, [tempFoodNotes]);
-
-  const [showShoppingTrends, setShowShoppingTrends] = useState(false);
 
   const options = {
     vAxis: { title: "Number of food items" },
@@ -85,6 +89,21 @@ export default function RecipeDashboard({
     },
   };
 
+  function getData() {
+    return [
+      [
+        "Week",
+        "Carbohydrates",
+        "Dairy",
+        "Drinks",
+        "Fruit & Veg",
+        "Meat",
+        "Sweets & Chips",
+        "Average",
+      ],
+      ...boughtIngredients,
+    ];
+  }
 
   return (
     <div>
@@ -100,6 +119,28 @@ export default function RecipeDashboard({
           col="30"
         />
       </div>
+      {boughtIngredients.length !== 0 ? (
+        <div className="shoppingTrends">
+          <button onClick={() => setShowShoppingTrends((prev) => !prev)}>
+            {!showShoppingTrends
+              ? "Show Food Shopping Trends"
+              : "Hide Food Shopping Trends"}
+          </button>
+          {showShoppingTrends ? (
+            <Chart
+              chartType="ComboChart"
+              width="100%"
+              height="300px"
+              data={getData()}
+              options={options}
+            />
+          ) : (
+            ""
+          )}
+        </div>
+      ) : (
+        ""
+      )}
       {likedRecipes && (
         <RecipeList
           recipes={likedRecipes}

@@ -151,36 +151,23 @@ function ShoppingList() {
       "boughtIngredients",
       week
     );
-
-    try {
-      // Attempt to increment the field
-      await updateDoc(ingredientRef, {
-        [itemToUpdate]: increment(1)
-      });
-    } catch (error) {
-      // If it doesn't exist, create it and set it to 0, then increment it
+    const ingredientSnapshot = await getDoc(ingredientRef); // Fix the typo here
+  
+    if (!ingredientSnapshot.exists()) {
       await setDoc(ingredientRef, {
-        [itemToUpdate]: 1
-      }, { merge: true });
+        Meat: 0,
+        Carbohydrate: 0,
+        "Fruit & Veg": 0, 
+        Dairy: 0,
+        Drinks: 0,
+        "Sweets & Chips": 0,
+      });
     }
-    /* // Check if the week exists in the data
-    setBoughtIngredients((prevIngredients) => {
-      let newIngredients = [...prevIngredients];
-      let weekIndex = newIngredients.findIndex((value) => value[0] === week);
-      const itemIndex = getIndexFromFoodGroup(itemToUpdate);
-      if (weekIndex === -1) {
-        newIngredients = [[week, 0, 0, 0, 0, 0, 0, 0]];
-        weekIndex = 0;
-      }
-
-      newIngredients[weekIndex][itemIndex] += 1;
-      // Calculate the average
-      newIngredients[weekIndex][7] = calculateAverage(
-        newIngredients[weekIndex]
-      );
-      return newIngredients;
-    }); */
-  };
+  
+    await updateDoc(ingredientRef, {
+      [itemToUpdate]: increment(1) // Replace the semicolon with a comma
+    });
+  }
 
   async function removeFromBoughtIngredients(week, itemToRemove) {
     const ingredientRef = doc(
@@ -192,45 +179,11 @@ function ShoppingList() {
     );
     const ingredientData = (await getDoc(ingredientRef)).data()
 
-    if (ingredientData[itemToRemove] === 1) {
-      await updateDoc(ingredientRef, {
-        [itemToRemove]: deleteField()
-      });
-    } else {
+    if (ingredientData[itemToRemove] != 0) {
       await updateDoc(ingredientRef, {
         [itemToRemove]: increment(-1)
       });
     }
-    
-    /* setBoughtIngredients((prevIngredients) => {
-      const newIngredients = [...prevIngredients];
-      const weekIndex = newIngredients.findIndex((value) => value[0] === week);
-      const itemIndex = getIndexFromFoodGroup(itemToRemove);
-      newIngredients[weekIndex][itemIndex] -= 1;
-
-      // Calculate the average
-      newIngredients[weekIndex][7] = calculateAverage(
-        newIngredients[weekIndex]
-      );
-
-      return newIngredients;
-    }); */
-  }
-
-  function getIndexFromFoodGroup(i) {
-    if (i === "Meat") return 1;
-    if (i === "Carbohydrate") return 2;
-    if (i === "Fruit & Veg") return 3;
-    if (i === "Dairy") return 4;
-    if (i === "Drinks") return 5;
-    if (i === "Sweets & Chips") return 6;
-  }
-
-  function calculateAverage(data) {
-    const values = data.slice(1, -1);
-    const average = values.reduce((acc, val) => acc + val, 0) / values.length;
-
-    return average;
   }
 
   return (
