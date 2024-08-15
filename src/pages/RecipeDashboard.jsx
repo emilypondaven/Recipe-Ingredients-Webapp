@@ -3,7 +3,7 @@ import { Chart } from "react-google-charts";
 import NavBar from "../components/NavBar";
 import RecipeList from "../components/RecipeList";
 import { doc, getDoc, setDoc, collection, getDocs } from "firebase/firestore";
-import { db } from "../config/Firestore";
+import { db } from "../config/Firebase";
 
 export default function RecipeDashboard({
   likedRecipes,

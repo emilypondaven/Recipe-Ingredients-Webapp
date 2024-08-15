@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import RecipeCard from "./RecipeCard";
 import { doc, setDoc, deleteDoc } from "firebase/firestore";
-import { db } from "../config/Firestore";
+import { db } from "../config/Firebase";
 
 export default function RecipeList({ recipes, likedRecipes, setLikedRecipes }) {
 

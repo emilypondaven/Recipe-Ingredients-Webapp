@@ -14,7 +14,7 @@ import {
   deleteField,
   increment
 } from "firebase/firestore";
-import { db } from "../config/Firestore";
+import { db } from "../config/Firebase";
 
 function ShoppingList() {
   // List of all the ingredient names, their food group, and their checked values

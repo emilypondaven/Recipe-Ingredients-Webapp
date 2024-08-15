@@ -6,7 +6,7 @@ import ShoppingList from "./pages/ShoppingList";
 import WhatToCook from "./pages/WhatToCook";
 import SnackRecommendation from "./pages/SnackRecommendation";
 import { doc, collection, getDocs } from "firebase/firestore";
-import { db } from "./config/Firestore";
+import { db } from "./config/Firebase";
 
 function App() {
   const [likedRecipes, setLikedRecipes] = useState([]);

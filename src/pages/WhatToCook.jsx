@@ -4,7 +4,7 @@ import NavBar from "../components/NavBar";
 import FoodItemInput from "../components/FoodItemInput";
 import RecipeList from "../components/RecipeList";
 import { doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
-import { db } from "../config/Firestore";
+import { db } from "../config/Firebase";
 
 export default function WhatToCook({ likedRecipes, setLikedRecipes }) {
   const SPOONACULAR_KEY = import.meta.env.VITE_SPOONACULAR_API_KEY;
