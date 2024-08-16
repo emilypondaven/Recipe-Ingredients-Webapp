@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import RecipeDashboard from "./pages/RecipeDashboard";
 import ShoppingList from "./pages/ShoppingList";
 import WhatToCook from "./pages/WhatToCook";
+import Auth from "./pages/Auth"
 import SnackRecommendation from "./pages/SnackRecommendation";
 import { doc, collection, getDocs } from "firebase/firestore";
 import { db } from "./config/Firebase";
@@ -37,7 +38,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<Home />} />
+        <Route exact path="/" element={<Auth />} />
+        <Route exact path="/home" element={<Home />} />
         <Route
           path="/recipe-dashboard"
           element={
