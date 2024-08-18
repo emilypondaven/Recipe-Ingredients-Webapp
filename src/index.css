@@ -169,7 +169,7 @@ header button:hover {
 
 .topnav a {
   display: inline-block;
-  padding: 0.8em 1em;
+  padding: 0.8em 0.8em;
   text-decoration: none;
 }
 

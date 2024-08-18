@@ -34,7 +34,7 @@ export default function Auth() {
         await createUser(email, password);
         setIsLogin(true);
       } catch (error) {
-        setMessage("Unsuccessful sign up. Please try again!")
+        setMessage("Unsuccessful sign up. Try again :)")
         console.log(error.message);
       }
     }
