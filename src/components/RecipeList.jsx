@@ -5,8 +5,8 @@ import { db } from "../config/Firebase";
 import { AuthContext } from "./AuthProvider"
 
 export default function RecipeList({ recipes, likedRecipes, setLikedRecipes }) {
-  const { user } = useContext(AuthContext)
-
+  const { user } = useContext(AuthContext);
+  
   const removeSavedLikedRecipe = async (id) => {
     const recipeRef = doc(
       db,

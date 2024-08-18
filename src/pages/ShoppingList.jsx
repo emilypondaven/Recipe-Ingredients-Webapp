@@ -17,7 +17,7 @@ import { db } from "../config/Firebase";
 import { AuthContext } from "../components/AuthProvider"
 
 function ShoppingList() {
-  const { user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext)
   // List of all the ingredient names, their food group, and their checked values
   const [ingredients, setIngredients] = useState([]);
 

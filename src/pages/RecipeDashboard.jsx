@@ -46,7 +46,7 @@ export default function RecipeDashboard({
     const userDoc = await getDoc(docRef)
     const docData = userDoc.data();
 
-    if (!("foodNotes" in docData)) {
+    if (!docData || !("foodNotes" in docData)) {
       await setDoc(docRef, { foodNotes: "" }, { merge: true })
     } else {
       setTempFoodNotes(userDoc.get("foodNotes"));

@@ -9,7 +9,6 @@ import { AuthContext } from "../components/AuthProvider"
 
 export default function WhatToCook({ likedRecipes, setLikedRecipes }) {
   const { user } = useContext(AuthContext);
-
   const SPOONACULAR_KEY = import.meta.env.VITE_SPOONACULAR_API_KEY;
 
   const [foodItems, setFoodItems] = useState([]);

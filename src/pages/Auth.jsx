@@ -1,7 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../config/Firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { AuthContext } from "../components/AuthProvider";
 
 const Auth = () => {
@@ -11,7 +9,7 @@ const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const { loginUser, loading, user } = useContext(AuthContext);
+  const { loginUser, createUser } = useContext(AuthContext);
 
   const toggleForm = () => {
     setIsLogin(!isLogin);
@@ -23,10 +21,8 @@ const Auth = () => {
     if (isLogin) {
       // Handle login
       try {
-        setEmail("")
-        setPassword("")
-        loginUser(email, password);
-        navigate("/home")
+        await loginUser(email, password);
+        navigate("/home");
       } catch (error) {
         setMessage("Incorrect login credentials. Please try again!")
         console.log(error.message);
@@ -34,7 +30,7 @@ const Auth = () => {
     } else {
       // Handle signup
       try {
-        await createUserWithEmailAndPassword(auth, email, password);
+        await createUser(email, password);
         setIsLogin(true)
       } catch (error) {
         setMessage("Unsuccesful sign up. Please try again!")
