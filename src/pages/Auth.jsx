@@ -23,7 +23,11 @@ export default function Auth() {
     if (isLogin) {
       // Handle login
       try {
-        await loginUser(email, password);
+        if (!(email && password)) {
+          await loginUser("visitor.email@gmail.com", "visitorpass1297")
+        } else {
+          await loginUser(email, password);
+        }
         navigate("/home");
       } catch (error) {
         setMessage("Incorrect login credentials. Please try again!")
@@ -61,7 +65,7 @@ export default function Auth() {
             style={styles.input}
           />
           <button type="submit" style={styles.button}>
-            {isLogin ? 'Login' : 'Sign Up'}
+            {isLogin ? email || password ? 'Login' : 'Log in Anonymously' : 'Sign Up'}
           </button>
           {message && <p style={styles.message}>{message}</p>}
         </form>
