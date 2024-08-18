@@ -4,11 +4,12 @@ import Home from "./pages/Home";
 import RecipeDashboard from "./pages/RecipeDashboard";
 import ShoppingList from "./pages/ShoppingList";
 import WhatToCook from "./pages/WhatToCook";
-import Auth from "./pages/Auth"
 import SnackRecommendation from "./pages/SnackRecommendation";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./config/Firebase";
+import Auth from "./pages/Auth"
 import { AuthContext } from "./components/AuthProvider"
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -40,39 +41,26 @@ function App() {
   return (
     <Router>
       <Routes>
-      <Route exact path="/" element={<Auth />} />
-        <Route exact path="/home" element={<Home 
-          getLikedRecipes={getLikedRecipes}
-        />} />
+        <Route path="/" element={<Auth />} />
+        <Route
+          path="/home"
+          element={<PrivateRoute element={Home} getLikedRecipes={getLikedRecipes} />}
+        />
         <Route
           path="/recipe-dashboard"
-          element={
-            <RecipeDashboard
-              likedRecipes={likedRecipes}
-              setLikedRecipes={setLikedRecipes}
-            />
-          }
+          element={<PrivateRoute element={RecipeDashboard} likedRecipes={likedRecipes} setLikedRecipes={setLikedRecipes} />}
         />
         <Route
           path="/shopping-list"
-          element={
-            <ShoppingList/>
-          }
+          element={<PrivateRoute element={ShoppingList} />}
         />
         <Route
           path="/what-to-cook"
-          element={
-            <WhatToCook
-              likedRecipes={likedRecipes}
-              setLikedRecipes={setLikedRecipes}
-            />
-          }
+          element={<PrivateRoute element={WhatToCook} likedRecipes={likedRecipes} setLikedRecipes={setLikedRecipes} />}
         />
         <Route
           path="/snack-recommendations"
-          element={
-            <SnackRecommendation />
-          }
+          element={<PrivateRoute element={SnackRecommendation} />}
         />
       </Routes>
     </Router>

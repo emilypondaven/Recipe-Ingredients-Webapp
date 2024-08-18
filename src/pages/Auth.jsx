@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../components/AuthProvider";
 
-const Auth = () => {
+export default function Auth() {
   const navigate = useNavigate();
 
   const [isLogin, setIsLogin] = useState(true);
@@ -31,38 +31,99 @@ const Auth = () => {
       // Handle signup
       try {
         await createUser(email, password);
-        setIsLogin(true)
+        setIsLogin(true);
       } catch (error) {
-        setMessage("Unsuccesful sign up. Please try again!")
-        console.log(error.message)
+        setMessage("Unsuccessful sign up. Please try again!")
+        console.log(error.message);
       }
     }
   };
 
   return (
-    <div>
-      <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-        />
-        <button type="submit">{isLogin ? 'Login' : 'Sign Up'}</button>
-        {message && <p>{message}</p>}
-      </form>
-      <button onClick={toggleForm}>
-        {isLogin ? 'Switch to Sign Up' : 'Switch to Login'}
-      </button>
+    <div style={styles.container}>
+      <div style={styles.formContainer}>
+        <h1 style={styles.title}>{isLogin ? 'Login' : 'Sign Up'}</h1>
+        <form onSubmit={handleSubmit} style={styles.form}>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            style={styles.input}
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            style={styles.input}
+          />
+          <button type="submit" style={styles.button}>
+            {isLogin ? 'Login' : 'Sign Up'}
+          </button>
+          {message && <p style={styles.message}>{message}</p>}
+        </form>
+        <button onClick={toggleForm} style={styles.toggleButton}>
+          {isLogin ? 'Switch to Sign Up' : 'Switch to Login'}
+        </button>
+      </div>
     </div>
   );
 };
 
-export default Auth;
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    backgroundColor: '#ecd2ce',
+    padding: '5em',
+  },
+  formContainer: {
+    width: '100%',
+    maxWidth: '400px',
+    padding: '3vh',
+    backgroundColor: '#fff3f0',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+    borderRadius: '1em',
+    textAlign: 'center',
+  },
+  title: {
+    marginBottom: '20px',
+    fontSize: '24px',
+    color: '#533641',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  input: {
+    padding: '10px',
+    marginBottom: '15px',
+    borderRadius: '4px',
+    border: '1px solid #ccc',
+    fontSize: '16px',
+  },
+  button: {
+    padding: '10px',
+    backgroundColor: '#DBB9B3',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    fontSize: '16px',
+    cursor: 'pointer',
+  },
+  toggleButton: {
+    marginTop: '10px',
+    backgroundColor: 'transparent',
+    color: '#DBB9B3',
+    border: 'none',
+    cursor: 'pointer',
+    fontSize: '14px',
+  },
+  message: {
+    color: 'red',
+    marginTop: '10px',
+  },
+};

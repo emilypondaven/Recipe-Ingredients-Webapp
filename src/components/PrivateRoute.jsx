@@ -1,26 +1,17 @@
-import { useContext } from "react";
-import { AuthContext } from "./AuthProvider";
-import PropTypes from "prop-types";
-import { Navigate } from "react-router-dom";
+import React, { useContext } from 'react';
+import { Navigate } from 'react-router-dom';
+import { AuthContext } from './AuthProvider';
 
-const PrivateRoute = ({ children }) => {
-  const { loading, user } = useContext(AuthContext);
+const PrivateRoute = ({ element: Component, ...rest }) => {
+  const { user } = useContext(AuthContext);
 
-  if (loading) {
-    return <span className="loading loading-dots loading-lg"></span>;
+  // If the user is not authenticated, redirect to the login page
+  if (!user) {
+    return <Navigate to="/" />;
   }
 
-  if (user) {
-    return children;
-  }
-
-  return <Navigate to="/login" />;
-};
-
-
-
-PrivateRoute.propTypes = {
-  children: PropTypes.node,
+  // If the user is authenticated, render the component
+  return <Component {...rest} />;
 };
 
 export default PrivateRoute;
