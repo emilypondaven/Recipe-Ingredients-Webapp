@@ -11,14 +11,19 @@ import { db } from "./config/Firebase";
 import { AuthContext } from "./components/AuthProvider"
 
 function App() {
-  const { currentUser } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
   const [likedRecipes, setLikedRecipes] = useState([]);
 
   const getLikedRecipes = async () => {
+    if (!user) {
+      console.log('No user authenticated');
+      return;
+    }
+
     const likedRecipesRef = collection(
       db,
       "users",
-      currentUser.uid,
+      user.uid,
       "likedRecipes"
     );
     const snapshot = await getDocs(likedRecipesRef);

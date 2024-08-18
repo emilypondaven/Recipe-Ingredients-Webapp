@@ -8,7 +8,7 @@ import { db } from "../config/Firebase";
 import { AuthContext } from "../components/AuthProvider"
 
 export default function WhatToCook({ likedRecipes, setLikedRecipes }) {
-  const { currentUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const SPOONACULAR_KEY = import.meta.env.VITE_SPOONACULAR_API_KEY;
 
@@ -17,7 +17,7 @@ export default function WhatToCook({ likedRecipes, setLikedRecipes }) {
   const [suggestedRecipes, setSuggestedRecipes] = useState([]);
 
   const getExistingFoodItems = async () => {
-    const docRef = doc(db, "users", currentUser.uid);
+    const docRef = doc(db, "users", user.uid);
     const userDoc = await getDoc(docRef)
     const docData = userDoc.data();
 
@@ -39,7 +39,7 @@ export default function WhatToCook({ likedRecipes, setLikedRecipes }) {
         return [...oldFoodItems, newFoodItem];
       });
     }
-    const docRef = doc(db, "users", currentUser.uid);
+    const docRef = doc(db, "users", user.uid);
     await updateDoc(docRef, {
       existingFoodItems: arrayUnion(newFoodItem) // Replace 'existingFood' with your field name
     });
@@ -52,7 +52,7 @@ export default function WhatToCook({ likedRecipes, setLikedRecipes }) {
     });
     setFoodItems(newFoodItemList);
 
-    const docRef = doc(db, "users", currentUser.uid);
+    const docRef = doc(db, "users", user.uid);
     await updateDoc(docRef, {
       existingFoodItems: arrayRemove(newFoodItem) // Replace 'existingFood' with your field name
     });

@@ -20,13 +20,11 @@ const Auth = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (user) {
-      navigate("/home")
-    }
-
     if (isLogin) {
       // Handle login
       try {
+        setEmail("")
+        setPassword("")
         loginUser(email, password);
         navigate("/home")
       } catch (error) {

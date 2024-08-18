@@ -10,7 +10,7 @@ export default function RecipeDashboard({
   likedRecipes,
   setLikedRecipes,
 }) {
-  const { currentUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [foodNotes, setFoodNotes] = useState(""); // Original food notes from Firestore
   const [tempFoodNotes, setTempFoodNotes] = useState(""); // Temporary notes for user edits
   const [boughtIngredients, setBoughtIngredients] = useState([]);
@@ -20,7 +20,7 @@ export default function RecipeDashboard({
     const boughtIngredientsRef = collection(
       db,
       "users",
-      currentUser.uid,
+      user.uid,
       "boughtIngredients"
     );
     const snapshot = await getDocs(boughtIngredientsRef);
@@ -42,7 +42,7 @@ export default function RecipeDashboard({
   };
 
   const getFoodNotes = async () => {
-    const docRef = doc(db, "users", currentUser.uid);
+    const docRef = doc(db, "users", user.uid);
     const userDoc = await getDoc(docRef)
     const docData = userDoc.data();
 
@@ -54,7 +54,7 @@ export default function RecipeDashboard({
   };
 
   const saveFoodNotes = async () => {
-    const userDocRef = doc(db, "users", currentUser.uid);
+    const userDocRef = doc(db, "users", user.uid);
 
     await setDoc(
       userDocRef, 
