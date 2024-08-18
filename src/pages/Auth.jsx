@@ -15,6 +15,7 @@ export default function Auth() {
     setIsLogin(!isLogin);
   };
 
+  // Handles submit - need to add some connection to google
   const handleSubmit = async (e) => {
     e.preventDefault();
 
