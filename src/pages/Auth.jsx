@@ -13,6 +13,7 @@ export default function Auth() {
 
   const toggleForm = () => {
     setIsLogin(!isLogin);
+    setMessage("");
   };
 
   // Handles submit - need to add some connection to google
@@ -124,7 +125,7 @@ const styles = {
     fontSize: '14px',
   },
   message: {
-    color: 'red',
+    color: '#533641',
     marginTop: '10px',
   },
 };
