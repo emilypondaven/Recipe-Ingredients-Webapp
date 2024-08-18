@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import RecipeDashboard from "./pages/RecipeDashboard";
@@ -8,15 +8,17 @@ import Auth from "./pages/Auth"
 import SnackRecommendation from "./pages/SnackRecommendation";
 import { doc, collection, getDocs } from "firebase/firestore";
 import { db } from "./config/Firebase";
+import { AuthContext } from "./components/AuthProvider"
 
 function App() {
+  const { currentUser } = useContext(AuthContext)
   const [likedRecipes, setLikedRecipes] = useState([]);
 
   const getLikedRecipes = async () => {
     const likedRecipesRef = collection(
       db,
       "users",
-      "4A9NGq8eZsQoI4Wf5ner",
+      currentUser.uid,
       "likedRecipes"
     );
     const snapshot = await getDocs(likedRecipesRef);
@@ -31,15 +33,13 @@ function App() {
     setLikedRecipes(items)
   };
 
-  useEffect(() => {
-    getLikedRecipes();
-  }, []);
-
   return (
     <Router>
       <Routes>
         <Route exact path="/" element={<Auth />} />
-        <Route exact path="/home" element={<Home />} />
+        <Route exact path="/home" element={<Home 
+          getLikedRecipes={getLikedRecipes}
+        />} />
         <Route
           path="/recipe-dashboard"
           element={

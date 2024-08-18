@@ -1,35 +1,46 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { auth } from '../config/Firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { AuthContext } from "../components/AuthProvider";
 
 const Auth = () => {
+  const navigate = useNavigate();
+
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+  const { loginUser, loading, user } = useContext(AuthContext);
 
   const toggleForm = () => {
     setIsLogin(!isLogin);
-    setError(''); // Clear error on form switch
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (user) {
+      navigate("/home")
+    }
+
     if (isLogin) {
       // Handle login
       try {
-        await signInWithEmailAndPassword(auth, email, password);
-        alert("Login successful!");
+        loginUser(email, password);
+        navigate("/home")
       } catch (error) {
-        alert("Login unsucessful!");
+        setMessage("Incorrect login credentials. Please try again!")
+        console.log(error.message);
       }
     } else {
       // Handle signup
       try {
         await createUserWithEmailAndPassword(auth, email, password);
-        alert("Signup successful!");
+        setIsLogin(true)
       } catch (error) {
-        alert("Signup unsuccessful!");
+        setMessage("Unsuccesful sign up. Please try again!")
+        console.log(error.message)
       }
     }
   };
@@ -51,7 +62,7 @@ const Auth = () => {
           placeholder="Password"
         />
         <button type="submit">{isLogin ? 'Login' : 'Sign Up'}</button>
-        {error && <p>{error}</p>}
+        {message && <p>{message}</p>}
       </form>
       <button onClick={toggleForm}>
         {isLogin ? 'Switch to Sign Up' : 'Switch to Login'}

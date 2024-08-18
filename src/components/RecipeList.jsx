@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import RecipeCard from "./RecipeCard";
 import { doc, setDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../config/Firebase";
+import { AuthContext } from "./AuthProvider"
 
 export default function RecipeList({ recipes, likedRecipes, setLikedRecipes }) {
+  const { currentUser } = useContext(AuthContext)
 
   const removeSavedLikedRecipe = async (id) => {
     const recipeRef = doc(
       db,
       "users",
-      "4A9NGq8eZsQoI4Wf5ner",
+      currentUser.uid,
       "likedRecipes",
       id.toString()
     );
@@ -21,7 +23,7 @@ export default function RecipeList({ recipes, likedRecipes, setLikedRecipes }) {
     const recipeRef = doc(
       db,
       "users",
-      "4A9NGq8eZsQoI4Wf5ner",
+      currentUser.uid,
       "likedRecipes",
       id.toString()
     );

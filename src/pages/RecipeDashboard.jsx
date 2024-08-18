@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import NavBar from "../components/NavBar";
 import RecipeList from "../components/RecipeList";
 import { doc, getDoc, setDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../config/Firebase";
+import { AuthContext } from "../components/AuthProvider"
 
 export default function RecipeDashboard({
   likedRecipes,
   setLikedRecipes,
 }) {
-
+  const { currentUser } = useContext(AuthContext);
   const [foodNotes, setFoodNotes] = useState(""); // Original food notes from Firestore
   const [tempFoodNotes, setTempFoodNotes] = useState(""); // Temporary notes for user edits
   const [boughtIngredients, setBoughtIngredients] = useState([]);
@@ -19,7 +20,7 @@ export default function RecipeDashboard({
     const boughtIngredientsRef = collection(
       db,
       "users",
-      "4A9NGq8eZsQoI4Wf5ner",
+      currentUser.uid,
       "boughtIngredients"
     );
     const snapshot = await getDocs(boughtIngredientsRef);
@@ -41,7 +42,7 @@ export default function RecipeDashboard({
   };
 
   const getFoodNotes = async () => {
-    const docRef = doc(db, "users", "4A9NGq8eZsQoI4Wf5ner");
+    const docRef = doc(db, "users", currentUser.uid);
     const userDoc = await getDoc(docRef)
     const docData = userDoc.data();
 
@@ -53,7 +54,7 @@ export default function RecipeDashboard({
   };
 
   const saveFoodNotes = async () => {
-    const userDocRef = doc(db, "users", "4A9NGq8eZsQoI4Wf5ner");
+    const userDocRef = doc(db, "users", currentUser.uid);
 
     await setDoc(
       userDocRef, 

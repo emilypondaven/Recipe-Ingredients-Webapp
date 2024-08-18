@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import IngredientsInput from "../components/IngredientsInput";
 import IngredientsList from "../components/IngredientsList";
@@ -11,12 +11,13 @@ import {
   updateDoc,
   setDoc,
   getDoc,
-  deleteField,
   increment
 } from "firebase/firestore";
 import { db } from "../config/Firebase";
+import { AuthContext } from "../components/AuthProvider"
 
 function ShoppingList() {
+  const { currentUser } = useContext(AuthContext);
   // List of all the ingredient names, their food group, and their checked values
   const [ingredients, setIngredients] = useState([]);
 
@@ -30,7 +31,7 @@ function ShoppingList() {
     const shoppingListRef = collection(
       db,
       "users",
-      "4A9NGq8eZsQoI4Wf5ner",
+      currentUser.uid,
       "shoppingList"
     );
     const snapshot = await getDocs(shoppingListRef);
@@ -72,7 +73,7 @@ function ShoppingList() {
       const shoppingListRef = doc(
         db,
         "users",
-        "4A9NGq8eZsQoI4Wf5ner",
+        currentUser.uid,
         "shoppingList",
         newIngredient.value
       );
@@ -94,7 +95,7 @@ function ShoppingList() {
     const ingredientRef = doc(
       db,
       "users",
-      "4A9NGq8eZsQoI4Wf5ner",
+      currentUser.uid,
       "shoppingList",
       handleIngredient
     );
@@ -123,7 +124,7 @@ function ShoppingList() {
     const ingredientRef = doc(
       db,
       "users",
-      "4A9NGq8eZsQoI4Wf5ner",
+      currentUser.uid,
       "shoppingList",
       handleIngredient
     );
@@ -147,7 +148,7 @@ function ShoppingList() {
     const ingredientRef = doc(
       db,
       "users",
-      "4A9NGq8eZsQoI4Wf5ner",
+      currentUser.uid,
       "boughtIngredients",
       week
     );
@@ -173,7 +174,7 @@ function ShoppingList() {
     const ingredientRef = doc(
       db,
       "users",
-      "4A9NGq8eZsQoI4Wf5ner",
+      currentUser.uid,
       "boughtIngredients",
       week
     );
