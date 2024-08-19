@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../components/AuthProvider";
+import { sendEmailVerification } from 'firebase/auth';
 
 export default function LogInOrSignUp() {
   const navigate = useNavigate();
@@ -9,11 +10,10 @@ export default function LogInOrSignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const { loginUser, createUser } = useContext(AuthContext);
+  const { loginUser, registerUser } = useContext(AuthContext);
 
   const toggleForm = () => {
     setIsLogin(!isLogin);
-    setMessage("");
   };
 
   const resetPasswordForm = () => {
@@ -34,14 +34,15 @@ export default function LogInOrSignUp() {
         }
         navigate("/home");
       } catch (error) {
-        setMessage("Incorrect login credentials. Please try again!")
+        setMessage("Incorrect login credentials. Have you verified you're email?")
         console.log(error.message);
       }
     } else {
       // Handle signup
       try {
-        await createUser(email, password);
-        setIsLogin(true);
+        registerUser(email, password);
+        setMessage("Verify email before logging in!");
+        navigate("/email-verification")
       } catch (error) {
         setMessage("Unsuccessful sign up. Try again :)")
         console.log(error.message);

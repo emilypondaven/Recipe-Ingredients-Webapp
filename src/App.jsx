@@ -11,6 +11,7 @@ import { AuthContext } from "./components/AuthProvider"
 import PrivateRoute from "./components/PrivateRoute";
 import LogInOrSignUp from "./pages/LogInOrSignUp";
 import PasswordReset from "./pages/PasswordReset";
+import EmailVerification from "./pages/EmailVerification";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -44,6 +45,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LogInOrSignUp />} />
         <Route path="/password-reset" element={<PasswordReset />} />
+        <Route path="/email-verification" element={<EmailVerification />} />
         <Route
           path="/home"
           element={<PrivateRoute element={Home} getLikedRecipes={getLikedRecipes} />}
