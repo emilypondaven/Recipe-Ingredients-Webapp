@@ -28,7 +28,7 @@ export default function LogInOrSignUp() {
       // Handle login
       try {
         if (!email && !password) {
-          await loginUser("visitor.email@gmail.com", "visitorpass1297")
+          await loginUser("mikema5013@chaladas.com", "visitorpass1297")
         } else {
           await loginUser(email, password);
         }
