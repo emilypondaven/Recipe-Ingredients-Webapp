@@ -10,7 +10,7 @@ export default function NavBar(props) {
     const handleLogout = async () => {
         try {
             logOut();
-            navigate("/"); // Redirect to the login or home page after logging out
+            navigate("/"); // Redrecit to the login or home page after logging out
         } catch (error) {
             console.error("Error logging out: ", error);
         }
@@ -23,7 +23,7 @@ export default function NavBar(props) {
                 <li><NavLink to="/shopping-list">Shopping List</NavLink></li>
                 <li><NavLink to="/what-to-cook">What to Cook?</NavLink></li>
                 <li><NavLink to="/snack-recommendations">Snack Inspo</NavLink></li>
-                <li><NavLink to="/" onClick={handleLogout}>Logout</NavLink></li>
+                {format == "topnav" && <li><NavLink to="/" onClick={handleLogout}>Logout</NavLink></li>}
             </ul>
         </nav>
   )
