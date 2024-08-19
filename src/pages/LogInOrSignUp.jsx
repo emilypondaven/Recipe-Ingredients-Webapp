@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../components/AuthProvider";
 
-export default function Auth() {
+export default function LogInOrSignUp() {
   const navigate = useNavigate();
 
   const [isLogin, setIsLogin] = useState(true);
@@ -16,6 +16,10 @@ export default function Auth() {
     setMessage("");
   };
 
+  const resetPasswordForm = () => {
+    navigate("/password-reset");
+  };
+
   // Handles submit - need to add some connection to google
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +27,7 @@ export default function Auth() {
     if (isLogin) {
       // Handle login
       try {
-        if (!(email && password)) {
+        if (!email && !password) {
           await loginUser("visitor.email@gmail.com", "visitorpass1297")
         } else {
           await loginUser(email, password);
@@ -67,11 +71,15 @@ export default function Auth() {
           <button type="submit" style={styles.button}>
             {isLogin ? email || password ? 'Login' : 'Log in Anonymously' : 'Sign Up'}
           </button>
+          {isLogin ? <button onClick={resetPasswordForm} style={styles.buttonPass}>
+            Forgot Password?
+          </button> : ""}
           {message && <p style={styles.message}>{message}</p>}
         </form>
         <button onClick={toggleForm} style={styles.toggleButton}>
           {isLogin ? 'Switch to Sign Up' : 'Switch to Login'}
         </button>
+        
       </div>
     </div>
   );
@@ -102,6 +110,7 @@ const styles = {
   },
   form: {
     display: 'flex',
+    justifyContent: 'center',
     flexDirection: 'column',
   },
   input: {
@@ -110,6 +119,16 @@ const styles = {
     borderRadius: '4px',
     border: '1px solid #ccc',
     fontSize: '16px',
+  },
+  buttonPass: {
+    padding: '3px',
+    marginTop: '10px',
+    backgroundColor: '#c6a09a',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    fontSize: '16px',
+    cursor: 'pointer',
   },
   button: {
     padding: '10px',

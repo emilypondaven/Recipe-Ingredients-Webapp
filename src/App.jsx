@@ -7,9 +7,10 @@ import WhatToCook from "./pages/WhatToCook";
 import SnackRecommendation from "./pages/SnackRecommendation";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./config/Firebase";
-import Auth from "./pages/Auth"
 import { AuthContext } from "./components/AuthProvider"
 import PrivateRoute from "./components/PrivateRoute";
+import LogInOrSignUp from "./pages/LogInOrSignUp";
+import PasswordReset from "./pages/PasswordReset";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -41,7 +42,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Auth />} />
+        <Route path="/" element={<LogInOrSignUp />} />
+        <Route path="/password-reset" element={<PasswordReset />} />
         <Route
           path="/home"
           element={<PrivateRoute element={Home} getLikedRecipes={getLikedRecipes} />}
