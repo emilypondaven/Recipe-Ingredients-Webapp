@@ -16,3 +16,7 @@ A dynamic multi-page web application using React and CSS that provides personali
 - React
 - API integration using Spoonacular
 - Cloud-based storage and secure user authentication using Firestore
+
+## Screenshots
+![image](https://github.com/user-attachments/assets/9a0a3b6d-da45-44d1-9479-cc00b065e2ec)
+
