@@ -1,4 +1,5 @@
 # Recipe Ingredients Webapp
+### Page link: https://recipe-shoppinglist-app.netlify.app/snack-recommendations
 ## Description
 A dynamic multi-page web application using React and CSS that provides personalised recipe suggestions through API integration, an editable shopping list feature, and a visualisation of past food shopping habits.
 
