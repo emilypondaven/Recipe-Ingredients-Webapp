@@ -18,5 +18,5 @@ A dynamic multi-page web application using React and CSS that provides personali
 - Cloud-based storage and secure user authentication using Firestore
 
 ## Screenshots
+![image](https://github.com/user-attachments/assets/36caeed3-4ea6-4dd6-bf26-0fd2a1db3ebc)
 ![image](https://github.com/user-attachments/assets/9a0a3b6d-da45-44d1-9479-cc00b065e2ec)
-
