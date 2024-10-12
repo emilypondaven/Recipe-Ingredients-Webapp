@@ -19,4 +19,4 @@ A dynamic multi-page web application using React and CSS that provides personali
 
 ## Screenshots
 ![image](https://github.com/user-attachments/assets/36caeed3-4ea6-4dd6-bf26-0fd2a1db3ebc)
-![image](https://github.com/user-attachments/assets/9a0a3b6d-da45-44d1-9479-cc00b065e2ec)
+![image](https://github.com/user-attachments/assets/f45edc11-230c-4641-a95f-ba8be66c82d8)
