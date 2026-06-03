@@ -1,21 +1,20 @@
 # Recipe Ingredients Webapp
 ### Page link: https://recipe-shoppinglist-app.netlify.app/snack-recommendations
 ## Description
-A dynamic multi-page web application using React and CSS that provides personalised recipe suggestions through API integration, an editable shopping list feature, and a visualisation of past food shopping habits.
+A dynamic multi-page web application using React, CSS, and Firestore authentication that provides personalised recipe suggestions through API integration, an editable shopping list feature, and a visualisation of past food shopping habits.
 
 ## Individual webpages
-- A login & signup with secure user authentication (i.e. email verification) and anonymous log in
-- Menu page for each webpage
-- Recipe dashboard: Meal planning, visualization of food shopping trends, saved recipes
-- Shopping List (with CRUD operations)
-- Recipe recommendations page with integrated API based on user's fridge ingredients
+- A login & signup with email verification and anonymous login (Firestore Authentication)
+- Recipe dashboard: meal planning, food shopping trend visualisation, saved recipes
+- Shopping List with full CRUD operations
+- Recipe recommendations based on user's fridge ingredients (Spoonacular API)
 - Snack inspiration generator
 
 ## Libraries/Utilities
-- Programming languages: JavaScript and CSS
-- React
-- API integration using Spoonacular
-- Cloud-based storage and secure user authentication using Firestore
+- JavaScript, CSS
+- React + Vite
+- Spoonacular API
+- Firebase Firestore (cloud storage + authentication)
 
 ## Screenshots
 ![image](https://github.com/user-attachments/assets/36caeed3-4ea6-4dd6-bf26-0fd2a1db3ebc)
